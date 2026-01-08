@@ -1,10 +1,16 @@
+import type { RouteObject } from "react-router-dom";
 import HomePage from "../../pages/home";
 import PATH from "./path";
+import { MainLayout } from "../layouts";
 
-const routes = [
+export const routes: RouteObject[] = [
   {
-    path: PATH.HOME,
-    element: <HomePage />,
+    element: <MainLayout />,
+    children: [
+      {
+        path: PATH.HOME,
+        element: <HomePage />,
+      },
+    ],
   },
 ];
-export default routes;
