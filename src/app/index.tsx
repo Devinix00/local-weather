@@ -1,5 +1,10 @@
 import Router from "./router";
+import { QueryProvider } from "./providers";
 
 export default function App() {
-  return <Router />;
+  return (
+    <QueryProvider>
+      <Router />
+    </QueryProvider>
+  );
 }
