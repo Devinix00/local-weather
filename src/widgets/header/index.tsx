@@ -33,13 +33,7 @@ export default function Header() {
               to={""}
               className="text-white/90 hover:text-white font-medium transition-colors"
             >
-              날씨
-            </Link>
-            <Link
-              to={""}
-              className="text-white/90 hover:text-white font-medium transition-colors"
-            >
-              설정
+              즐겨찾기
             </Link>
           </nav>
 
