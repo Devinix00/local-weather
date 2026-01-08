@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
+:root {
+  --z-base: 0;
+  --z-footer: 10;
+  --z-header: 30;
+  --z-overlay: 40;
+  --z-sidebar: 50;
+}
+
 button {
   cursor: pointer;
 }

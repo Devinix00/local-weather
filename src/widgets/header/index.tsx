@@ -1,13 +1,16 @@
+import { useState } from "react";
 import { HiCloud, HiMenu } from "react-icons/hi";
 import { Link, useNavigate } from "react-router-dom";
 import PATH from "../../app/router/path";
 import { IconButton } from "../../shared/ui";
+import Sidebar from "../sidebar";
 
 export default function Header() {
   const navigate = useNavigate();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-linear-to-r from-blue-500 via-cyan-500 to-teal-500 shadow-lg">
+    <header className="sticky top-0 w-full bg-linear-to-r from-blue-500 via-cyan-500 to-teal-500 shadow-lg z-(--z-header)">
       <div className="max-w-7xl mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -43,9 +46,11 @@ export default function Header() {
             rounded="lg"
             className="md:hidden"
             aria-label="메뉴"
+            onClick={() => setIsSidebarOpen(true)}
           />
         </div>
       </div>
+      <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
     </header>
   );
 }

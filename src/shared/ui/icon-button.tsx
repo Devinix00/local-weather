@@ -43,6 +43,7 @@ export function IconButton({
   return (
     <button
       className={clsx(
+        "transition-all duration-200",
         variantClasses[variant],
         sizeClasses[size],
         roundedClasses[rounded],
