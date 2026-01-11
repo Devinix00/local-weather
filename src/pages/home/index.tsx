@@ -9,7 +9,7 @@ import {
 } from "../../shared/ui";
 
 export default function HomePage() {
-  const { location: myLocation, error } = useGetMyLocation();
+  const { location: myLocation, error: myLocationError } = useGetMyLocation();
   const {
     searchValue,
     inputRef,
@@ -25,22 +25,22 @@ export default function HomePage() {
     selectedLocation,
   } = useAddressSearch();
 
-  const getErrorMessage = () => {
-    if (!error) return null;
+  const getMyLocationErrorMessage = () => {
+    if (!myLocationError) return null;
 
-    switch (error.code) {
-      case error.PERMISSION_DENIED:
+    switch (myLocationError.code) {
+      case myLocationError.PERMISSION_DENIED:
         return "위치 권한이 거부되었습니다. 브라우저 설정에서 위치 권한을 허용해주세요.";
-      case error.POSITION_UNAVAILABLE:
+      case myLocationError.POSITION_UNAVAILABLE:
         return "위치 정보를 사용할 수 없습니다.";
-      case error.TIMEOUT:
+      case myLocationError.TIMEOUT:
         return "위치 정보 요청 시간이 초과되었습니다.";
       default:
         return "위치 정보를 가져오는 중 오류가 발생했습니다.";
     }
   };
 
-  const errorMessage = getErrorMessage();
+  const myLocationErrorMessage = getMyLocationErrorMessage();
   const location = selectedLocation || myLocation;
   const { data: weather } = useGetWeather(location);
 
@@ -72,13 +72,20 @@ export default function HomePage() {
           ))}
         </Dropdown>
       </div>
-      {errorMessage && <div className="text-red-500">{errorMessage}</div>}
       <div className="flex md:flex-row flex-col gap-4">
         {location && <KakaoMap location={location} />}
         {weather && (
           <WeatherCard weather={weather} className="w-full md:w-1/2" />
         )}
       </div>
+      {myLocationErrorMessage && (
+        <div className="text-red-500">{myLocationErrorMessage}</div>
+      )}
+      {location && weather === null && (
+        <div className="text-red-500">
+          해당 장소의 정보가 제공되지 않습니다.
+        </div>
+      )}
     </div>
   );
 }
