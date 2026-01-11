@@ -22,6 +22,7 @@ interface FavoritesState {
   favorites: FavoriteLocation[];
   toggleFavorite: (payload: ToggleFavoritePayload) => void;
   clearFavorites: () => void;
+  updateFavoriteName: ({ id, name }: { id: string; name: string }) => void;
 }
 
 export const useFavoritesStore = create<FavoritesState>()(
@@ -53,6 +54,16 @@ export const useFavoritesStore = create<FavoritesState>()(
       clearFavorites: () => {
         set({ favorites: [] });
         toast.success("모든 즐겨찾기가 삭제되었습니다.");
+      },
+      updateFavoriteName: ({ id, name }: { id: string; name: string }) => {
+        if (!name.trim()) return toast.error("이름을 입력해주세요.");
+
+        set({
+          favorites: get().favorites.map((fav) =>
+            fav.id === id ? { ...fav, name: name.trim() } : fav
+          ),
+        });
+        toast.success("이름이 변경되었습니다.");
       },
     }),
     {
