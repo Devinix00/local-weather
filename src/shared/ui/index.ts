@@ -4,3 +4,4 @@ export { default as SearchInput } from "./search-input";
 export { default as Dropdown } from "./dropdown";
 export { default as DropdownItem } from "./dropdown-item";
 export { default as KakaoMap } from "./kakao-map";
+export { default as WeatherCard } from "./weather-card";

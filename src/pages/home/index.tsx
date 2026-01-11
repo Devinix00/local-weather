@@ -1,5 +1,12 @@
 import { useAddressSearch, useGetMyLocation } from "../../entities/location";
-import { Dropdown, DropdownItem, KakaoMap, SearchInput } from "../../shared/ui";
+import { useGetWeather } from "../../entities/weather";
+import {
+  Dropdown,
+  DropdownItem,
+  KakaoMap,
+  SearchInput,
+  WeatherCard,
+} from "../../shared/ui";
 
 export default function HomePage() {
   const { location: myLocation, error } = useGetMyLocation();
@@ -35,6 +42,7 @@ export default function HomePage() {
 
   const errorMessage = getErrorMessage();
   const location = selectedLocation || myLocation;
+  const { data: weather } = useGetWeather(location);
 
   return (
     <div className="py-4 space-y-4">
@@ -65,7 +73,12 @@ export default function HomePage() {
         </Dropdown>
       </div>
       {errorMessage && <div className="text-red-500">{errorMessage}</div>}
-      {location && <KakaoMap location={location} />}
+      <div className="flex md:flex-row flex-col gap-4">
+        {location && <KakaoMap location={location} />}
+        {weather && (
+          <WeatherCard weather={weather} className="w-full md:w-1/2" />
+        )}
+      </div>
     </div>
   );
 }
