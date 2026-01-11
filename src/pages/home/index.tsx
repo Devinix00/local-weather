@@ -1,14 +1,8 @@
-import { Dropdown, DropdownItem, SearchInput, KakaoMap } from "../../shared/ui";
-import {
-  useAddressSearch,
-  useGetAddressFromCoordinates,
-  useGetMyLocation,
-} from "../../entities/location";
+import { useAddressSearch, useGetMyLocation } from "../../entities/location";
+import { Dropdown, DropdownItem, KakaoMap, SearchInput } from "../../shared/ui";
 
 export default function HomePage() {
-  const { location, error } = useGetMyLocation();
-  const { data: geocodedLocation } = useGetAddressFromCoordinates(location);
-
+  const { location: myLocation, error } = useGetMyLocation();
   const {
     searchValue,
     inputRef,
@@ -18,6 +12,10 @@ export default function HomePage() {
     handleInputChange,
     handleInputFocus,
     handleSelectAddress,
+    handlePressEnter,
+    handleCompositionStart,
+    handleCompositionEnd,
+    selectedLocation,
   } = useAddressSearch();
 
   const getErrorMessage = () => {
@@ -36,16 +34,19 @@ export default function HomePage() {
   };
 
   const errorMessage = getErrorMessage();
+  const location = selectedLocation || myLocation;
 
   return (
     <div className="py-4 space-y-4">
-      {errorMessage && <div className="text-error">{errorMessage}</div>}
       <div className="relative">
         <SearchInput
           ref={inputRef}
           value={searchValue}
           onChange={handleInputChange}
           onFocus={handleInputFocus}
+          onKeyDown={handlePressEnter}
+          onCompositionStart={handleCompositionStart}
+          onCompositionEnd={handleCompositionEnd}
           placeholder="위치를 입력해주세요 ex) 은평구, 갈현동"
         />
         <Dropdown
@@ -63,7 +64,7 @@ export default function HomePage() {
           ))}
         </Dropdown>
       </div>
-
+      {errorMessage && <div className="text-red-500">{errorMessage}</div>}
       {location && <KakaoMap location={location} />}
     </div>
   );
