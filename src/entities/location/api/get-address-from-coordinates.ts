@@ -3,17 +3,13 @@ import type { Location } from "../types";
 
 interface KakaoAddress {
   address_name: string;
-  b_code: string;
-  h_code: string;
-  main_address_no: string;
-  mountain_yn: string;
   region_1depth_name: string;
   region_2depth_name: string;
-  region_3depth_h_name: string;
   region_3depth_name: string;
+  mountain_yn: string;
+  main_address_no: string;
   sub_address_no: string;
-  x: string;
-  y: string;
+  zip_code: string;
 }
 
 interface KakaoRoadAddress {
@@ -27,8 +23,6 @@ interface KakaoRoadAddress {
   sub_building_no: string;
   building_name: string;
   zone_no: string;
-  x: string;
-  y: string;
 }
 
 interface KakaoReverseGeocodeDocument {
@@ -81,4 +75,3 @@ export default async function getAddressFromCoordinates(
     region3Depth: address.region_3depth_name,
   };
 }
-
