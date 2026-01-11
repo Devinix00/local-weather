@@ -1,16 +1,24 @@
-import {
-  useGetMyLocation,
-  useGetCoordinatesFromAddress,
-} from "../../entities/location";
-import { SearchInput } from "../../shared/ui";
+import { Dropdown, DropdownItem, SearchInput } from "../../shared/ui";
+import { useAddressSearch } from "../../entities/location";
 
 export default function HomePage() {
-  const { location } = useGetMyLocation();
+  // const { location } = useGetMyLocation();
+  // const {
+  //   data: geocodedLocation,
+  //   isLoading,
+  //   error,
+  // } = useGetCoordinatesFromAddress("갈현로 120-11");
+
   const {
-    data: geocodedLocation,
-    isLoading,
-    error,
-  } = useGetCoordinatesFromAddress("갈현로 120-11");
+    searchValue,
+    inputRef,
+    isDropdownOpen,
+    setIsDropdownOpen,
+    filteredAddresses,
+    handleInputChange,
+    handleInputFocus,
+    handleSelectAddress,
+  } = useAddressSearch();
 
   // const getErrorMessage = () => {
   //   if (!error) return null;
@@ -29,7 +37,29 @@ export default function HomePage() {
 
   return (
     <div className="py-4">
-      <SearchInput placeholder="주소를 입력해주세요." />
+      <div className="relative">
+        <SearchInput
+          ref={inputRef}
+          value={searchValue}
+          onChange={handleInputChange}
+          onFocus={handleInputFocus}
+          placeholder="주소를 입력해주세요. ex) 갈현동"
+        />
+        <Dropdown
+          isOpen={isDropdownOpen && filteredAddresses.length > 0}
+          onClose={() => setIsDropdownOpen(false)}
+          triggerRef={inputRef}
+        >
+          {filteredAddresses.map((address: string) => (
+            <DropdownItem
+              key={address}
+              onClick={() => handleSelectAddress(address)}
+            >
+              <p>{address}</p>
+            </DropdownItem>
+          ))}
+        </Dropdown>
+      </div>
     </div>
   );
 }

@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
-import type { Location, LocationState } from "../types";
+import { useEffect, useState } from "react";
+import type { Location } from "../types";
 
-export default function useGetMyLocation(): LocationState {
+export default function useGetMyLocation() {
   const [location, setLocation] = useState<Location | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<GeolocationPositionError | null>(null);
