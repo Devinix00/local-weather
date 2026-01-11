@@ -1,3 +1,5 @@
 export { default as Toast } from "./toast";
 export { default as IconButton } from "./icon-button";
 export { default as SearchInput } from "./search-input";
+export { default as Dropdown } from "./dropdown";
+export { default as DropdownItem } from "./dropdown-item";

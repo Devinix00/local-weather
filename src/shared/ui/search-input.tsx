@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import type { InputHTMLAttributes } from "react";
-import { useState } from "react";
+import { forwardRef, useState } from "react";
 import { FiSearch } from "react-icons/fi";
 
 interface SearchInputProps
@@ -29,14 +29,17 @@ const variantClasses = {
     "bg-white/80 backdrop-blur-md border border-white/20 text-gray-900 placeholder:text-gray-500 focus:bg-white/95 focus:border-white/40 focus:ring-2 focus:ring-white/30 shadow-lg",
 };
 
-export default function SearchInput({
-  size = "md",
-  variant = "default",
-  className,
-  value,
-  onChange,
-  ...props
-}: SearchInputProps) {
+function SearchInput(
+  {
+    size = "md",
+    variant = "default",
+    className,
+    value,
+    onChange,
+    ...props
+  }: SearchInputProps,
+  ref: React.ForwardedRef<HTMLInputElement>
+) {
   const [isFocused, setIsFocused] = useState(false);
 
   return (
@@ -58,6 +61,7 @@ export default function SearchInput({
       </div>
 
       <input
+        ref={ref}
         type="search"
         value={value}
         onChange={onChange}
@@ -85,3 +89,5 @@ export default function SearchInput({
     </div>
   );
 }
+
+export default forwardRef<HTMLInputElement, SearchInputProps>(SearchInput);

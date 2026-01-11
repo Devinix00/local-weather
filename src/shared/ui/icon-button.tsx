@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import type { IconType } from "react-icons";
 import type { ButtonHTMLAttributes } from "react";
+import { forwardRef } from "react";
 
 interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   icon: IconType;
@@ -31,16 +32,20 @@ const variantClasses = {
   dark: "bg-gray-800/20 text-gray-700 backdrop-blur-sm hover:bg-gray-800/30",
 };
 
-export default function IconButton({
-  icon: Icon,
-  size = "md",
-  rounded = "lg",
-  variant = "light",
-  className,
-  ...props
-}: IconButtonProps) {
+function IconButton(
+  {
+    icon: Icon,
+    size = "md",
+    rounded = "lg",
+    variant = "light",
+    className,
+    ...props
+  }: IconButtonProps,
+  ref: React.ForwardedRef<HTMLButtonElement>
+) {
   return (
     <button
+      ref={ref}
       className={clsx(
         "transition-all duration-200",
         variantClasses[variant],
@@ -54,3 +59,5 @@ export default function IconButton({
     </button>
   );
 }
+
+export default forwardRef<HTMLButtonElement, IconButtonProps>(IconButton);
