@@ -3,7 +3,7 @@ import HomePage from "../../pages/home";
 import PATH from "./path";
 import { MainLayout } from "../layouts";
 
-export const routes: RouteObject[] = [
+const routes: RouteObject[] = [
   {
     element: <MainLayout />,
     children: [
@@ -14,3 +14,5 @@ export const routes: RouteObject[] = [
     ],
   },
 ];
+
+export default routes;

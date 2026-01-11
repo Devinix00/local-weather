@@ -34,7 +34,7 @@ interface KakaoGeocodeResponse {
   };
 }
 
-export async function getCoordinatesFromAddress(
+export default async function getCoordinatesFromAddress(
   address: string
 ): Promise<Location | null> {
   const { data } = await apiInstance.get<KakaoGeocodeResponse>(
