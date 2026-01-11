@@ -1,4 +1,8 @@
-import { useAddressSearch, useGetMyLocation } from "../../entities/location";
+import {
+  useAddressSearch,
+  useGetMyLocation,
+  useGetAddressFromCoordinates,
+} from "../../entities/location";
 import { useGetWeather, useGetWeatherForecast } from "../../entities/weather";
 import {
   Dropdown,
@@ -6,7 +10,9 @@ import {
   KakaoMap,
   SearchInput,
   WeatherCard,
+  SaveButton,
 } from "../../shared/ui";
+import { useFavoritesStore } from "../../features/favorites";
 
 export default function HomePage() {
   const { location: myLocation, error: myLocationError } = useGetMyLocation();
@@ -44,6 +50,23 @@ export default function HomePage() {
   const location = selectedLocation || myLocation;
   const { data: weather } = useGetWeather(location);
   const { data: forecast } = useGetWeatherForecast(location);
+  const { data: addressData } = useGetAddressFromCoordinates(location);
+
+  const { favorites, toggleFavorite } = useFavoritesStore();
+
+  const favoriteId = weather
+    ? `${weather.coord.lat}-${weather.coord.lon}`
+    : null;
+  const isSaved = favoriteId
+    ? favorites.some((fav) => fav.id === favoriteId)
+    : false;
+
+  const handleSaveClick = () => {
+    if (!weather || !forecast) return;
+
+    const name = searchValue || addressData?.address || weather.name;
+    toggleFavorite({ name, weather, forecast });
+  };
 
   return (
     <div className="pb-4">
@@ -98,6 +121,13 @@ export default function HomePage() {
         <div className="text-red-500">
           해당 장소의 정보가 제공되지 않습니다.
         </div>
+      )}
+      {location && weather && forecast && (
+        <SaveButton
+          isSaved={isSaved}
+          onClick={handleSaveClick}
+          disabled={!weather || !forecast}
+        />
       )}
     </div>
   );
