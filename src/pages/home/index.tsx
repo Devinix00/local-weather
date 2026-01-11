@@ -1,13 +1,13 @@
 import { Dropdown, DropdownItem, SearchInput } from "../../shared/ui";
-import { useAddressSearch } from "../../entities/location";
+import {
+  useAddressSearch,
+  useGetAddressFromCoordinates,
+  useGetMyLocation,
+} from "../../entities/location";
 
 export default function HomePage() {
-  // const { location } = useGetMyLocation();
-  // const {
-  //   data: geocodedLocation,
-  //   isLoading,
-  //   error,
-  // } = useGetCoordinatesFromAddress("갈현로 120-11");
+  const { location } = useGetMyLocation();
+  const { data: geocodedLocation } = useGetAddressFromCoordinates(location);
 
   const {
     searchValue,
@@ -43,7 +43,7 @@ export default function HomePage() {
           value={searchValue}
           onChange={handleInputChange}
           onFocus={handleInputFocus}
-          placeholder="주소를 입력해주세요. ex) 갈현동"
+          placeholder="위치를 입력해주세요 ex) 은평구, 갈현동"
         />
         <Dropdown
           isOpen={isDropdownOpen && filteredAddresses.length > 0}
