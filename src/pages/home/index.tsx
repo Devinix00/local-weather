@@ -99,26 +99,28 @@ export default function HomePage() {
           </Dropdown>
         </div>
       </div>
-      <div className="flex md:flex-row flex-col gap-4 mt-4 md:h-[564px]">
-        {location && (
-          <KakaoMap
-            location={location}
-            className="w-full md:w-1/2 rounded-3xl h-[350px] md:h-auto"
-          />
-        )}
-        {weather && forecast && (
-          <WeatherCard
-            weather={weather}
-            forecast={forecast.list}
-            className="w-full md:h-full md:w-1/2"
-          />
-        )}
-      </div>
+      {!myLocationError && !myLocationErrorMessage && (
+        <div className="flex md:flex-row flex-col gap-4 mt-4 md:h-[564px]">
+          {location && (
+            <KakaoMap
+              location={location}
+              className="w-full md:w-1/2 rounded-3xl h-[350px] md:h-auto"
+            />
+          )}
+          {weather && forecast && (
+            <WeatherCard
+              weather={weather}
+              forecast={forecast.list}
+              className="w-full md:h-full md:w-1/2"
+            />
+          )}
+        </div>
+      )}
       {myLocationErrorMessage && (
-        <div className="text-red-500">{myLocationErrorMessage}</div>
+        <div className="text-red-500 mt-2">{myLocationErrorMessage}</div>
       )}
       {location && weather === null && (
-        <div className="text-red-500">
+        <div className="text-red-500 mt-2">
           해당 장소의 정보가 제공되지 않습니다.
         </div>
       )}
