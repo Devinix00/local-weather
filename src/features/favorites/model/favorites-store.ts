@@ -44,7 +44,7 @@ export const useFavoritesStore = create<FavoritesState>()(
           }
 
           set({
-            favorites: [...favorites, { id, name, weather, forecast }],
+            favorites: [{ id, name, weather, forecast }, ...favorites],
           });
           toast.success("즐겨찾기에 추가되었습니다.");
         }
