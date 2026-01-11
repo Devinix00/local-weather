@@ -1,4 +1,4 @@
-import { Dropdown, DropdownItem, SearchInput } from "../../shared/ui";
+import { Dropdown, DropdownItem, SearchInput, KakaoMap } from "../../shared/ui";
 import {
   useAddressSearch,
   useGetAddressFromCoordinates,
@@ -6,7 +6,7 @@ import {
 } from "../../entities/location";
 
 export default function HomePage() {
-  const { location } = useGetMyLocation();
+  const { location, error } = useGetMyLocation();
   const { data: geocodedLocation } = useGetAddressFromCoordinates(location);
 
   const {
@@ -20,23 +20,26 @@ export default function HomePage() {
     handleSelectAddress,
   } = useAddressSearch();
 
-  // const getErrorMessage = () => {
-  //   if (!error) return null;
+  const getErrorMessage = () => {
+    if (!error) return null;
 
-  //   switch (error.code) {
-  //     case error.PERMISSION_DENIED:
-  //       return "위치 권한이 거부되었습니다. 브라우저 설정에서 위치 권한을 허용해주세요.";
-  //     case error.POSITION_UNAVAILABLE:
-  //       return "위치 정보를 사용할 수 없습니다.";
-  //     case error.TIMEOUT:
-  //       return "위치 정보 요청 시간이 초과되었습니다.";
-  //     default:
-  //       return "위치 정보를 가져오는 중 오류가 발생했습니다.";
-  //   }
-  // };
+    switch (error.code) {
+      case error.PERMISSION_DENIED:
+        return "위치 권한이 거부되었습니다. 브라우저 설정에서 위치 권한을 허용해주세요.";
+      case error.POSITION_UNAVAILABLE:
+        return "위치 정보를 사용할 수 없습니다.";
+      case error.TIMEOUT:
+        return "위치 정보 요청 시간이 초과되었습니다.";
+      default:
+        return "위치 정보를 가져오는 중 오류가 발생했습니다.";
+    }
+  };
+
+  const errorMessage = getErrorMessage();
 
   return (
-    <div className="py-4">
+    <div className="py-4 space-y-4">
+      {errorMessage && <div className="text-error">{errorMessage}</div>}
       <div className="relative">
         <SearchInput
           ref={inputRef}
@@ -60,6 +63,8 @@ export default function HomePage() {
           ))}
         </Dropdown>
       </div>
+
+      {location && <KakaoMap location={location} />}
     </div>
   );
 }
