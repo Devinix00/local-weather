@@ -1,2 +1,2 @@
-export { useGetMyLocation } from "./model/use-get-my-location";
+export { useGetMyLocation, useGetCoordinatesFromAddress } from "./model";
 export type { Location, LocationState } from "./types";

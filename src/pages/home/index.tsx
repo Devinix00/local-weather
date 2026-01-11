@@ -1,7 +1,15 @@
-import { useGetMyLocation } from "../../entities/location";
+import {
+  useGetMyLocation,
+  useGetCoordinatesFromAddress,
+} from "../../entities/location";
 
 export default function HomePage() {
-  const { location, loading, error } = useGetMyLocation();
+  const { location } = useGetMyLocation();
+  const {
+    data: geocodedLocation,
+    isLoading,
+    error,
+  } = useGetCoordinatesFromAddress("갈현로 120-11");
 
   // const getErrorMessage = () => {
   //   if (!error) return null;
