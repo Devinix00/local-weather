@@ -6,7 +6,7 @@ import axios, {
 import toast from "react-hot-toast";
 
 const apiInstance: AxiosInstance = axios.create({
-  baseURL: "",
+  baseURL: import.meta.env.VITE_WEATHER_MAP_API_URL,
 });
 
 apiInstance.interceptors.response.use(
