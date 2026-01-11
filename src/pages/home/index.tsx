@@ -1,5 +1,5 @@
 import { useAddressSearch, useGetMyLocation } from "../../entities/location";
-import { useGetWeather } from "../../entities/weather";
+import { useGetWeather, useGetWeatherForecast } from "../../entities/weather";
 import {
   Dropdown,
   DropdownItem,
@@ -43,39 +43,52 @@ export default function HomePage() {
   const myLocationErrorMessage = getMyLocationErrorMessage();
   const location = selectedLocation || myLocation;
   const { data: weather } = useGetWeather(location);
+  const { data: forecast } = useGetWeatherForecast(location);
 
   return (
-    <div className="py-4 space-y-4">
-      <div className="relative">
-        <SearchInput
-          ref={inputRef}
-          value={searchValue}
-          onChange={handleInputChange}
-          onFocus={handleInputFocus}
-          onKeyDown={handlePressEnter}
-          onCompositionStart={handleCompositionStart}
-          onCompositionEnd={handleCompositionEnd}
-          placeholder="위치를 입력해주세요 ex) 은평구, 갈현동"
-        />
-        <Dropdown
-          isOpen={isDropdownOpen && filteredAddresses.length > 0}
-          onClose={() => setIsDropdownOpen(false)}
-          triggerRef={inputRef}
-        >
-          {filteredAddresses.map((address: string) => (
-            <DropdownItem
-              key={address}
-              onClick={() => handleSelectAddress(address)}
-            >
-              <p>{address}</p>
-            </DropdownItem>
-          ))}
-        </Dropdown>
+    <div className="pb-4">
+      <div className="pt-4 pb-0 sticky top-(--header-height) z-(--z-search-input) bg-white rounded-b-xl shadow-[0_4px_12px_2px_rgba(255,255,255,0.8)]">
+        <div className="relative">
+          <SearchInput
+            ref={inputRef}
+            value={searchValue}
+            onChange={handleInputChange}
+            onFocus={handleInputFocus}
+            onKeyDown={handlePressEnter}
+            onCompositionStart={handleCompositionStart}
+            onCompositionEnd={handleCompositionEnd}
+            placeholder="위치를 입력해주세요 ex) 은평구, 갈현동"
+            className="w-full"
+          />
+          <Dropdown
+            isOpen={isDropdownOpen && filteredAddresses.length > 0}
+            onClose={() => setIsDropdownOpen(false)}
+            triggerRef={inputRef}
+          >
+            {filteredAddresses.map((address: string) => (
+              <DropdownItem
+                key={address}
+                onClick={() => handleSelectAddress(address)}
+              >
+                <p>{address}</p>
+              </DropdownItem>
+            ))}
+          </Dropdown>
+        </div>
       </div>
-      <div className="flex md:flex-row flex-col gap-4">
-        {location && <KakaoMap location={location} />}
+      <div className="flex md:flex-row flex-col gap-4 mt-4">
+        {location && (
+          <KakaoMap
+            location={location}
+            className="w-full md:w-1/2 rounded-3xl h-[350px] md:h-auto"
+          />
+        )}
         {weather && (
-          <WeatherCard weather={weather} className="w-full md:w-1/2" />
+          <WeatherCard
+            weather={weather}
+            forecast={forecast?.list}
+            className="w-full md:w-1/2"
+          />
         )}
       </div>
       {myLocationErrorMessage && (

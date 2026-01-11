@@ -10,7 +10,7 @@ export default function Header() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 w-full bg-linear-to-r from-blue-500 via-cyan-500 to-teal-500 shadow-lg z-(--z-header)">
+    <header className="sticky top-0 w-full bg-linear-to-r from-blue-500 via-cyan-500 to-teal-500 shadow-lg z-(--z-header) h-(--header-height)">
       <div className="max-w-7xl mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">

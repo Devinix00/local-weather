@@ -3,10 +3,13 @@
 :root {
   --z-base: 0;
   --z-footer: 10;
+  --z-search-input: 20;
   --z-header: 30;
   --z-dropdown: 35;
   --z-overlay: 40;
   --z-sidebar: 50;
+
+  --header-height: 68px;
 }
 
 button {

@@ -1,13 +1,27 @@
 import clsx from "clsx";
-import type { WeatherData } from "../../entities/weather";
+import dayjs from "dayjs";
+import type { WeatherData, ForecastItem } from "../../entities/weather";
 
 interface WeatherCardProps {
   weather: WeatherData;
+  forecast?: ForecastItem[];
   className?: string;
 }
 
-export default function WeatherCard({ weather, className }: WeatherCardProps) {
+export default function WeatherCard({
+  weather,
+  forecast,
+  className,
+}: WeatherCardProps) {
   const { main, weather: weatherInfo, wind, name } = weather;
+
+  const todayForecast = forecast
+    ?.filter((item) => {
+      const itemDate = dayjs(item.dt_txt);
+      const diffHours = itemDate.diff(dayjs(), "hour");
+      return diffHours >= 0 && diffHours <= 24;
+    })
+    .slice(0, 8);
 
   return (
     <div
@@ -18,10 +32,10 @@ export default function WeatherCard({ weather, className }: WeatherCardProps) {
     >
       <div className="flex items-start justify-between mb-4">
         <h3 className="text-2xl font-bold text-gray-900 mb-1">{name}</h3>
-        <p className="font-bold">{weatherInfo[0].description}</p>
+        <p className="font-bold capitalize">{weatherInfo[0].description}</p>
       </div>
 
-      <div className="space-y-3">
+      <div className="space-y-3 mb-6">
         <div className="flex items-center justify-between">
           <span className="text-gray-600">현재 온도</span>
           <span className="text-3xl font-bold text-gray-900">
@@ -53,6 +67,39 @@ export default function WeatherCard({ weather, className }: WeatherCardProps) {
           <span className="text-gray-900 font-medium">{wind.speed} m/s</span>
         </div>
       </div>
+
+      {todayForecast && todayForecast.length > 0 && (
+        <div className="border-t border-gray-200 pt-4">
+          <h4 className="text-lg font-semibold text-gray-900 mb-3">
+            시간대별 기온
+          </h4>
+          <div className="space-y-2">
+            {todayForecast.map((item, index) => (
+              <div
+                key={`${item.dt}-${index}`}
+                className="flex items-center justify-between text-sm"
+              >
+                <div className="flex items-center gap-2">
+                  <span className="text-gray-600">
+                    {dayjs(item.dt_txt).format("M월 D일")}
+                  </span>
+                  <span className="text-gray-900 font-medium">
+                    {dayjs(item.dt_txt).format("HH:mm")}
+                  </span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="text-gray-900 font-medium">
+                    {Math.round(item.main.temp)}°C
+                  </span>
+                  <span className="text-gray-500 text-xs">
+                    {item.weather[0].description}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

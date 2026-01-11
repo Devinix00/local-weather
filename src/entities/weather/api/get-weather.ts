@@ -2,29 +2,63 @@ import apiInstance from "../../../shared/api/instance";
 import type { Location } from "../../location/types";
 
 export interface WeatherData {
+  coord: {
+    lon: number;
+    lat: number;
+  };
+  weather: Array<{
+    id: number;
+    main: string;
+    description: string;
+    icon: string;
+  }>;
+  base: string;
   main: {
     temp: number;
     feels_like: number;
     temp_min: number;
     temp_max: number;
+    pressure: number;
     humidity: number;
+    sea_level: number;
+    grnd_level: number;
   };
-  weather: Array<{
-    main: string;
-    description: string;
-    icon: string;
-  }>;
+  visibility: number;
   wind: {
     speed: number;
+    deg: number;
   };
+  clouds: {
+    all: number;
+  };
+  dt: number;
+  sys: {
+    type: number;
+    id: number;
+    country: string;
+    sunrise: number;
+    sunset: number;
+  };
+  timezone: number;
+  id: number;
   name: string;
+  cod: number;
 }
 
 interface WeatherResponse {
-  main: WeatherData["main"];
+  coord: WeatherData["coord"];
   weather: WeatherData["weather"];
+  base: string;
+  main: WeatherData["main"];
+  visibility: number;
   wind: WeatherData["wind"];
+  clouds: WeatherData["clouds"];
+  dt: number;
+  sys: WeatherData["sys"];
+  timezone: number;
+  id: number;
   name: string;
+  cod: number;
 }
 
 export default async function getWeather(
@@ -44,10 +78,19 @@ export default async function getWeather(
   );
 
   return {
-    main: data.main,
+    coord: data.coord,
     weather: data.weather,
+    base: data.base,
+    main: data.main,
+    visibility: data.visibility,
     wind: data.wind,
+    clouds: data.clouds,
+    dt: data.dt,
+    sys: data.sys,
+    timezone: data.timezone,
+    id: data.id,
     name: data.name,
+    cod: data.cod,
   };
 }
 

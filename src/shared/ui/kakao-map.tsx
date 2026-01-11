@@ -33,7 +33,7 @@ export default function KakaoMap({ location, className }: KakaoMapProps) {
         lng: location.longitude,
       }}
       level={3}
-      className={clsx("w-full rounded-2xl md:w-1/2 h-[350px]", className)}
+      className={clsx("rounded-2xl", className)}
     >
       <MapMarker
         position={{
