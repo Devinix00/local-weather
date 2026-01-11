@@ -76,18 +76,18 @@ export default function HomePage() {
           </Dropdown>
         </div>
       </div>
-      <div className="flex md:flex-row flex-col gap-4 mt-4">
+      <div className="flex md:flex-row flex-col gap-4 mt-4 md:h-[564px]">
         {location && (
           <KakaoMap
             location={location}
             className="w-full md:w-1/2 rounded-3xl h-[350px] md:h-auto"
           />
         )}
-        {weather && (
+        {weather && forecast && (
           <WeatherCard
             weather={weather}
-            forecast={forecast?.list}
-            className="w-full md:w-1/2"
+            forecast={forecast.list}
+            className="w-full md:h-full md:w-1/2"
           />
         )}
       </div>
