@@ -62,12 +62,12 @@ export default function FavoriteCard({
       className={clsx(
         "bg-white rounded-2xl p-4 shadow-lg border border-gray-100",
         "hover:shadow-xl transition-shadow duration-200 cursor-pointer",
-        "relative group",
+        "relative",
         className
       )}
     >
       {!isEditing && (
-        <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+        <div className="absolute top-4 right-4 flex gap-2 transition-opacity">
           <IconButton
             icon={HiPencil}
             size="sm"
