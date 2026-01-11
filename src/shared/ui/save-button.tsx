@@ -19,7 +19,6 @@ export default function SaveButton({
       onClick={onClick}
       disabled={disabled}
       className={clsx(
-        "fixed bottom-4 right-4 z-50",
         "w-14 h-14 rounded-full",
         "flex items-center justify-center",
         "shadow-lg transition-all duration-200",

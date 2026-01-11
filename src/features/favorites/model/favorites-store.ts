@@ -21,6 +21,7 @@ interface ToggleFavoritePayload {
 interface FavoritesState {
   favorites: FavoriteLocation[];
   toggleFavorite: (payload: ToggleFavoritePayload) => void;
+  clearFavorites: () => void;
 }
 
 export const useFavoritesStore = create<FavoritesState>()(
@@ -36,7 +37,7 @@ export const useFavoritesStore = create<FavoritesState>()(
           set({
             favorites: favorites.filter((fav) => fav.id !== id),
           });
-          toast.success("즐겨찾기에서 제거되었습니다.");
+          toast.success("즐겨찾기에서 삭제되었습니다.");
         } else {
           if (favorites.length >= MAX_FAVORITES) {
             toast.error("즐겨찾기는 최대 6개까지 추가할 수 있습니다.");
@@ -48,6 +49,10 @@ export const useFavoritesStore = create<FavoritesState>()(
           });
           toast.success("즐겨찾기에 추가되었습니다.");
         }
+      },
+      clearFavorites: () => {
+        set({ favorites: [] });
+        toast.success("모든 즐겨찾기가 삭제되었습니다.");
       },
     }),
     {

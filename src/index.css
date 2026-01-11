@@ -3,6 +3,7 @@
 :root {
   --z-base: 0;
   --z-footer: 10;
+  --z-save-button: 15;
   --z-search-input: 20;
   --z-header: 30;
   --z-dropdown: 35;

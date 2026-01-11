@@ -27,6 +27,11 @@ const roundedClasses = {
   full: "rounded-full",
 };
 
+const iconColorClasses = {
+  light: "text-white",
+  dark: "text-gray-700",
+};
+
 const variantClasses = {
   light: "bg-white/20 text-white backdrop-blur-sm hover:bg-white/30",
   dark: "bg-gray-800/20 text-gray-700 backdrop-blur-sm hover:bg-gray-800/30",

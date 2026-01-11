@@ -127,6 +127,7 @@ export default function HomePage() {
           isSaved={isSaved}
           onClick={handleSaveClick}
           disabled={!weather || !forecast}
+          className="fixed bottom-4 right-4 z-(--z-save-button)"
         />
       )}
     </div>

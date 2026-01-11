@@ -1,5 +1,6 @@
 import clsx from "clsx";
-import { HiBookmark } from "react-icons/hi";
+import { HiTrash } from "react-icons/hi";
+import { IconButton } from "../../../shared/ui";
 import type { FavoriteLocation } from "../model";
 import { useFavoritesStore } from "../model";
 
@@ -34,13 +35,16 @@ export default function FavoriteCard({
         className
       )}
     >
-      <button
-        onClick={handleRemove}
-        className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity p-1.5 rounded-full bg-gray-100 hover:bg-gray-200"
-        aria-label="즐겨찾기에서 제거"
-      >
-        <HiBookmark className="w-6 h-6 text-blue-500" />
-      </button>
+      <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+        <IconButton
+          icon={HiTrash}
+          size="md"
+          rounded="full"
+          variant="dark"
+          onClick={handleRemove}
+          aria-label="즐겨찾기에서 제거"
+        />
+      </div>
 
       <div className="mb-4">
         <h3 className="text-xl font-bold text-gray-900 mb-1">{name}</h3>

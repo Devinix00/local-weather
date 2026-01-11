@@ -3,6 +3,7 @@ import { FavoriteCard } from "../../features/favorites/ui";
 
 export default function FavoritesPage() {
   const favorites = useFavoritesStore((state) => state.favorites);
+  const clearFavorites = useFavoritesStore((state) => state.clearFavorites);
 
   return (
     <>
@@ -19,8 +20,17 @@ export default function FavoritesPage() {
         </div>
       ) : (
         <div className="py-4">
-          <h1 className="text-2xl font-bold text-gray-900">즐겨찾기</h1>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+          <div className="flex items-center justify-between mb-4">
+            <h1 className="text-2xl font-bold text-gray-900">즐겨찾기</h1>
+
+            <button
+              onClick={clearFavorites}
+              className="bg-red-500 text-white px-4 py-1 rounded-lg hover:bg-red-600"
+            >
+              전체 삭제
+            </button>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {favorites.map((favorite) => (
               <FavoriteCard key={favorite.id} favorite={favorite} />
             ))}
