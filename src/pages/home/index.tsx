@@ -2,6 +2,7 @@ import {
   useGetMyLocation,
   useGetCoordinatesFromAddress,
 } from "../../entities/location";
+import { SearchInput } from "../../shared/ui";
 
 export default function HomePage() {
   const { location } = useGetMyLocation();
@@ -26,5 +27,9 @@ export default function HomePage() {
   //   }
   // };
 
-  return <div></div>;
+  return (
+    <div className="py-4">
+      <SearchInput placeholder="주소를 입력해주세요." />
+    </div>
+  );
 }

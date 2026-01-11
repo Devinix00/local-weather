@@ -2,8 +2,7 @@ import clsx from "clsx";
 import type { IconType } from "react-icons";
 import type { ButtonHTMLAttributes } from "react";
 
-export interface IconButtonProps
-  extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   icon: IconType;
   size?: "sm" | "md" | "lg";
   rounded?: "lg" | "full";
@@ -32,7 +31,7 @@ const variantClasses = {
   dark: "bg-gray-800/20 text-gray-700 backdrop-blur-sm hover:bg-gray-800/30",
 };
 
-export function IconButton({
+export default function IconButton({
   icon: Icon,
   size = "md",
   rounded = "lg",
