@@ -3,17 +3,19 @@ import dayjs from "dayjs";
 import type { WeatherData, ForecastItem } from "../../entities/weather";
 
 interface WeatherCardProps {
+  address: string;
   weather: WeatherData;
   forecast?: ForecastItem[];
   className?: string;
 }
 
 export default function WeatherCard({
+  address,
   weather,
   forecast,
   className,
 }: WeatherCardProps) {
-  const { main, weather: weatherInfo, wind, name } = weather;
+  const { main, weather: weatherInfo, wind } = weather;
 
   const todayForecast = forecast
     ?.filter((item) => {
@@ -31,7 +33,7 @@ export default function WeatherCard({
       )}
     >
       <div className="flex items-start justify-between mb-4">
-        <h3 className="text-2xl font-bold text-gray-900 mb-1">{name}</h3>
+        <h3 className="text-2xl font-bold text-gray-900 mb-1">{address}</h3>
         <p className="font-bold capitalize">{weatherInfo[0].description}</p>
       </div>
 

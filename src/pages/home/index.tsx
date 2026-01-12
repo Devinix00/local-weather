@@ -107,8 +107,9 @@ export default function HomePage() {
               className="w-full md:w-1/2 rounded-3xl h-[350px] md:h-auto"
             />
           )}
-          {weather && forecast && (
+          {weather && forecast && addressData?.address && (
             <WeatherCard
+              address={addressData.address}
               weather={weather}
               forecast={forecast.list}
               className="w-full md:h-full md:w-1/2"
