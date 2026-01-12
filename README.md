@@ -1,73 +1,84 @@
-# React + TypeScript + Vite
+## [실행 방법]
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+npm i 로 패키지 다운 후 npm run dev (kakao, weathermap api key 필요)
 
-Currently, two official plugins are available:
+배포: https://geo-local-weather.netlify.app
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## [주요 기능]
 
-## React Compiler
+### 1. 사용자 현재 위치 조회
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Geolocation API를 활용하여 사용자의 현재 위치(위도, 경도)를 자동으로 감지합니다.
 
-## Expanding the ESLint configuration
+- **자동 위치 감지**: 페이지 로드 시 사용자 위치 권한을 요청하고, 허용 시 현재 위치의 좌표를 가져옵니다.
+- **에러 처리**: 위치 권한 거부, 위치 정보 사용 불가, 타임아웃 등 다양한 에러 상황에 대한 사용자 친화적인 메시지 제공합니다.
+- **위치 정보 활용**: 감지된 좌표를 기반으로 해당 지역의 날씨 정보를 자동으로 조회합니다.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 2. 사용자 위치, 검색어 입력 시 해당 위치 좌표(위도, 경도)로 지도 마커 표시 (Kakao API 이용)
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Kakao API를 활용하여 위치를 시각적으로 표시하고, 주소 검색 시 지오코딩을 통해 좌표를 변환합니다.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- **지도 표시**: Kakao Maps를 사용하여 선택한 위치를 지도에 표시하고 마커로 위치를 표시합니다.
+- **주소 검색**: 한국 지역명을 검색하면 Kakao 주소 검색 API를 통해 해당 주소의 좌표(위도, 경도)로 변환합니다.
+- **자동완성**: 한국 지역명 JSON 데이터를 활용하여 검색어 입력 시 자동완성 기능을 제공합니다.
+- **지도 이동**: 위치가 변경되면 지도가 자동으로 해당 위치로 이동하여 마커를 표시합니다.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### 3. 좌표를 통한 날씨 조회 (weathermap api 이용)
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+weathermap API를 사용하여 좌표 기반으로 현재 날씨와 예보 정보를 조회합니다.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **현재 날씨**: 현재 온도, 체감 온도, 최고/최저 온도, 습도, 풍속 등 상세 날씨 정보를 제공합니다.
+- **날씨 예보**: 시간대별 기온 예보를 표시하여 사용자가 시간대별 날씨 변화를 확인할 수 있습니다.
+- **날씨 상태**: 맑음, 흐림, 비, 눈 등 현재 날씨 상태를 한글로 표시합니다.
+- **역지오코딩을 통한 정확한 주소 표시**: weathermap API에서 반환하는 한글 도시/위치명이 불분명하거나 부정확한 경우가 많습니다 (예: "Samjeon-dong" 등). 이를 해결하기 위해 Kakao 역지오코딩 API를 활용하여 좌표를 상세한 주소로 변환하여 UI에 표시하였습니다. 이를 통해 사용자에게 더 명확하고 정확한 위치 정보를 제공하여 UX를 개선했습니다.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### 4. 검색 결과 즐겨찾기 기능 구현
+
+조회한 위치의 날씨 정보를 즐겨찾기로 저장하고 관리할 수 있습니다.
+
+- **즐겨찾기 추가/삭제**: 현재 조회 중인 위치의 날씨 정보를 즐겨찾기로 저장하거나 삭제할 수 있습니다.
+- **즐겨찾기 목록**: 저장된 즐겨찾기 목록을 확인하고, 각 즐겨찾기의 날씨 정보를 빠르게 조회할 수 있습니다.
+- **이름 수정**: 즐겨찾기의 이름을 사용자가 원하는 대로 수정할 수 있습니다.
+- **로컬 스토리지 저장**: Zustand의 persist 미들웨어를 사용하여 즐겨찾기 목록을 로컬 스토리지에 자동 저장하여 새로고침 후에도 유지됩니다.
+- **최대 개수 제한**: 즐겨찾기는 최대 6개까지 추가할 수 있으며, 초과 시 toast 알림을 표시합니다.
+
+## [기술적 의사결정 및 이유]
+
+### 1. Kakao 지도 도입
+
+단순히 주소를 입력해 날씨를 조회하는 방식에서 벗어나, 사용자의 현재 위치와 검색한 주소의 위치를 지도에 시각적으로 함께 표시함으로써 정보에 대한 신뢰성과 전반적인 UX를 향상시키고자 Kakao 지도를 도입했습니다.
+
+사용자는 지도를 통해 자신의 위치가 정확히 어디인지, 검색한 주소가 실제로 어떤 지역을 가리키는지 명확하게 확인할 수 있으며, 이를 통해 제공되는 날씨 정보에 대한 신뢰도를 높일 수 있었습니다.
+
+### 2. 검색 성능 최적화 (Debounce + 초기 데이터 제한)
+
+주소 검색 기능에서 사용자 입력에 대한 반응성과 성능을 균형있게 개선하기 위해 디바운스 기법과 초기 데이터 제한을 적용했습니다.
+
+**디바운스(300ms) 적용**: 사용자가 입력하는 동안 매번 필터링 계산을 수행하는 대신, 입력이 멈춘 후 300ms 뒤에 필터링을 수행하도록 구현했습니다. 이를 통해 불필요한 연산을 줄이고, 특히 빠르게 타이핑하는 경우 연산 횟수를 대폭 감소시켜 성능을 최적화했습니다.
+
+**초기 데이터 제한(30개)**: 검색어가 없을 때 전체 지역 데이터를 모두 렌더링하는 대신, 상위 30개만 표시하도록 제한했습니다. 이는 초기 렌더링 비용을 줄이고 DOM 노드 수를 최소화하여 메모리 사용량을 감소시킵니다. 또한 사용자가 실제로 필요한 데이터만 먼저 확인할 수 있어 초기 로딩 속도가 개선되고, 스크롤 성능도 향상됩니다. 사용자가 검색어를 입력하면 디바운스를 거쳐 필터링된 결과가 표시되므로, 실제 사용 시나리오에서도 충분한 데이터를 제공할 수 있습니다.
+
+### 3. Zustand + Zustand Persist
+
+클라이언트 상태 관리를 위해 Zustand를 선택하여, 복잡한 설정 없이도 필요한 상태를 간결하게 관리할 수 있는 구조를 구성했습니다. Redux 대비 단순한 문법과 가벼운 크기를 제공해, 즐겨찾기 목록과 같은 클라이언트 전용 상태를 불필요한 보일러플레이트 없이 효율적으로 관리할 수 있습니다.
+
+또한 zustand-persist를 활용해 즐겨찾기 데이터를 로컬 스토리지에 자동으로 저장/복원하도록 구성함으로써, 별도의 저장 로직을 구현하지 않아도 새로고침이나 브라우저 재시작 이후에도 상태가 유지되도록 했습니다. 이를 통해 사용자 경험을 향상시키는 동시에 상태 관리 코드의 복잡도를 최소화했습니다.
+
+### 4. Axios
+
+API 통신 라이브러리로 Axios를 선택하여 전역 인터셉터 기반의 일관된 네트워크 처리 구조를 설계했습니다.
+Axios의 응답 인터셉터 기능을 활용해 모든 API 응답 에러를 중앙에서 처리함으로써, 화면 단위로 분산되기 쉬운 예외 로직을 통합하고 사용자에게는 Toast 알림을 통해 명확한 에러 피드백을 제공했습니다.
+
+또한 baseURL을 환경 변수로 관리하여 API 변경 시 코드 수정 범위를 최소화했으며, 유지보수성을 높였습니다.
+추후 인증이 필요한 기능 확장을 고려해 요청 인터셉터를 통해 모든 요청 헤더에 인증 토큰을 자동으로 주입할 수 있는 구조를 마련함으로써, 인증 방식 변경이나 기능 확장에도 유연하게 대응할 수 있도록 설계했습니다.
+
+## [기술 스택]
+
+1. React
+2. Typescript
+3. Tailwind CSS
+4. Zustand
+5. Tanstack-Query
+6. Axios
+7. dayjs
+8. clsx
