@@ -4,6 +4,7 @@ const PATH = {
     LIST: "/favorites",
     DETAIL: "/favorite",
   },
+  NOT_FOUND: "*",
 };
 
 export default PATH;
