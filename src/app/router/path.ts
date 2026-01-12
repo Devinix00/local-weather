@@ -1,6 +1,9 @@
 const PATH = {
   HOME: "/",
-  FAVORITES: "/favorites",
+  FAVORITE: {
+    LIST: "/favorites",
+    DETAIL: "/favorite",
+  },
 };
 
 export default PATH;

@@ -1,9 +1,11 @@
 import clsx from "clsx";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { HiPencil, HiTrash } from "react-icons/hi";
 import { IconButton, Input } from "../../../shared/ui";
 import type { FavoriteLocation } from "../model";
 import { useFavoritesStore } from "../model";
+import PATH from "../../../app/router/path";
 
 interface FavoriteCardProps {
   favorite: FavoriteLocation;
@@ -14,6 +16,7 @@ export default function FavoriteCard({
   favorite,
   className,
 }: FavoriteCardProps) {
+  const navigate = useNavigate();
   const toggleFavorite = useFavoritesStore((state) => state.toggleFavorite);
   const updateFavoriteName = useFavoritesStore(
     (state) => state.updateFavoriteName
@@ -23,6 +26,12 @@ export default function FavoriteCard({
 
   const [isEditing, setIsEditing] = useState(false);
   const [editValue, setEditValue] = useState(name);
+
+  const handleCardClick = () => {
+    if (!isEditing) {
+      navigate(`${PATH.FAVORITE.DETAIL}/${id}`);
+    }
+  };
 
   const handleRemove = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -59,15 +68,16 @@ export default function FavoriteCard({
 
   return (
     <div
+      onClick={handleCardClick}
       className={clsx(
         "bg-white rounded-2xl p-4 shadow-lg border border-gray-100",
         "hover:shadow-xl transition-shadow duration-200 cursor-pointer",
-        "relative",
+        "relative group",
         className
       )}
     >
       {!isEditing && (
-        <div className="absolute top-4 right-4 flex gap-2 transition-opacity">
+        <div className="absolute top-4 right-4 flex gap-2">
           <IconButton
             icon={HiPencil}
             size="sm"

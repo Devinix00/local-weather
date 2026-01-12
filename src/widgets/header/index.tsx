@@ -33,7 +33,7 @@ export default function Header() {
               홈
             </Link>
             <Link
-              to={PATH.FAVORITES}
+              to={PATH.FAVORITE.LIST}
               className="text-white/90 hover:text-white font-medium transition-colors"
             >
               즐겨찾기

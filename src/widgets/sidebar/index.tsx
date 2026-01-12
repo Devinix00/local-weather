@@ -11,7 +11,7 @@ interface SidebarProps {
 
 const menuItems = [
   { icon: HiHome, label: "홈", path: PATH.HOME },
-  { icon: HiCloud, label: "즐겨찾기", path: PATH.FAVORITES },
+  { icon: HiCloud, label: "즐겨찾기", path: PATH.FAVORITE.LIST },
 ];
 
 export default function Sidebar({ isOpen, onClose }: SidebarProps) {
